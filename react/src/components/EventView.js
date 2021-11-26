@@ -9,7 +9,7 @@ const EventView = (props) => {
   const [selectedContent, setSelectedContent] = useState();
   
   useEffect(() => setEvent(props.event), [props.event]);
-  if (event === null || event === undefined) {
+  if (event == null) {
     return <div className='op-event'><div className='main'></div></div>;
   }
 

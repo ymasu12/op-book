@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import * as Opu from './OpUtils';
 
-import logo from './logo_title.svg';
+import logo from './logo.svg';
 import './App.scss';
 import './components/Op.scss';
 

@@ -1,14 +1,13 @@
-const URL_PREFIX = 'i';
-const URL_TOP = 'top';
+const URL_PREFIX = '';
+const URL_TOP = '';
 const URL_SEARCH = 'search';
 const URL_INFORMATION = 'pamphlet';
-const URL_SHOP = 'shop';
-const URL_EVENT = 'event';
+const URL_SHOPS = 'shops';
 const URL_EVENTS = 'events';
-const URL_PAGE = 'page';
+const URL_PAGES = 'pages';
 
 export function BuildUrl(...a) {
-  return '/' + a.join('/');
+  return '/' + a.filter(word => word !== '').join('/');
 }
 
 export function TopPath() {
@@ -28,19 +27,19 @@ export function PagePath(informationId, pageId) {
     URL_PREFIX,
     URL_INFORMATION,
     informationId,
-    URL_PAGE,
+    URL_PAGES,
     pageId);
 }
 export function ShopPath(shopId) {
   return BuildUrl(
     URL_PREFIX,
-    URL_SHOP,
+    URL_SHOPS,
     shopId);
 }
 export function EventPath(eventId) {
   return BuildUrl(
     URL_PREFIX,
-    URL_EVENT,
+    URL_EVENTS,
     eventId);
 }
 export function InformationShopsPath(informationId) {
@@ -48,7 +47,7 @@ export function InformationShopsPath(informationId) {
     URL_PREFIX,
     URL_INFORMATION,
     informationId,
-    URL_SHOP);
+    URL_SHOPS);
 }
 export function InformationEventsPath(informationId) {
   return BuildUrl(
@@ -62,36 +61,36 @@ export function PageShopPath(informationId, pageId, shopId) {
     URL_PREFIX,
     URL_INFORMATION,
     informationId,
-    URL_PAGE,
+    URL_PAGES,
     pageId,
-    URL_SHOP,
+    URL_SHOPS,
     shopId);
 }
 export function ImgUrl(path) {
-  return "https://dev.open-pamphlet.com" + path;
+  return process.env.REACT_APP_CONTENTS_URL + path;
 }
 export function MiconUrl(code) {
   return ImgUrl(`/images/micons/${code}.svg`);
 }
 export function VCHideHeaderFooter() {
-  if (document.querySelector('header') !== null && document.querySelector('header') !== undefined) {
+  if (document.querySelector('header') != null) {
     if (!document.querySelector('header').classList.contains('fullMode')) {
       document.querySelector('header').classList.add('fullMode');
     }
   }
-  if (document.querySelector('footer') !== null && document.querySelector('footer') !== undefined) {
+  if (document.querySelector('footer') != null) {
     if (!document.querySelector('footer').classList.contains('fullMode')) {
       document.querySelector('footer').classList.add('fullMode');
     }
   }
 }
 export function VCShowHeaderFooter() {
-  if (document.querySelector('header') !== null && document.querySelector('header') !== undefined) {
+  if (document.querySelector('header') != null) {
     if (document.querySelector('header').classList.contains('fullMode')) {
       document.querySelector('header').classList.remove('fullMode');
     }
   }
-  if (document.querySelector('footer') !== null && document.querySelector('footer') !== undefined) {
+  if (document.querySelector('footer') != null) {
     if (document.querySelector('footer').classList.contains('fullMode')) {
       document.querySelector('footer').classList.remove('fullMode');
     }
@@ -139,7 +138,7 @@ export function VCBackLinkTab(props) {
 }
 
 export function IsDebug() {
-  return document.querySelector('#ap-app-is-debug') !== null && document.querySelector('#ap-app-is-debug') !== undefined;
+  return document.querySelector('#ap-app-is-debug') != null;
 }
 
 export function DebugView(items = []) {
@@ -154,9 +153,9 @@ export function DebugViewUpdate(key, value) {
   if (IsDebug()) {
     let text = `${key} : ${value}`;
     let debugElement = document.querySelector('.output');
-    if (debugElement !== null && debugElement !== undefined) {
+    if (debugElement != null) {
       var targetElement = debugElement.querySelector(`.output [data-key='${key}']`);
-      if (targetElement !== null && targetElement !== undefined) {
+      if (targetElement != null) {
         targetElement.innerHTML = text;
       } else {
         debugElement.insertAdjacentHTML('beforeend', `<div data-key=${key}>${text}</div>`);
@@ -165,7 +164,7 @@ export function DebugViewUpdate(key, value) {
   }
 }
 export function buildAddress(src) {
-  if (src !== null && src !== undefined) {
+  if (src != null) {
     var result = src.prefecture || '';
     result = result + (src.address1 || '');
     result = result + (src.address2 || '');
@@ -175,7 +174,7 @@ export function buildAddress(src) {
 }
 
 export function shopFuncTag(src) {
-  if (src !== null && src !== undefined) {
+  if (src != null) {
     var tags = src.functions.map((f) => {
       switch (f.group_code) {
         case 'payment':

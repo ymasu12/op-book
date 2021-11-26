@@ -6,7 +6,7 @@ const apiParams = {
   }
 };
 export function api(url, queries, callBack, errorCallBack) {
-  var cUrl = url;
+  var cUrl = process.env.REACT_APP_API + url;
   if (0 < queries.length) {
     cUrl = cUrl + '?' + queries.join(',');
   }
@@ -16,13 +16,13 @@ export function api(url, queries, callBack, errorCallBack) {
     console.log(res.data.data);
     callBack(res);
   }).catch((error) => {
-    if (error.response != null || error.response !== 'undefined') {
+    if (error.response != null) {
       // let status = error.response.status != null ? error.response.status : "?";
       console.log(`api error [${encodeURI(cUrl)}] => `);
     } else {
       console.log(`api error [${encodeURI(cUrl)}]`);
     }
-    console.log(error);
+    console.error(error);
     errorCallBack(error);
   });
 }

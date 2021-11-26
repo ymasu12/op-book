@@ -7,11 +7,11 @@ class Shop extends React.Component {
   constructor(props) {
     super(props);
     var history = {offset: {x: 0, y: 0}, rate2: 1};
-    if (props.location.state !== null && props.location.state !== undefined) {
-      if (props.location.state.offset !== null && props.location.state.offset !== undefined) {
+    if (props.location.state != null) {
+      if (props.location.state.offset != null) {
         history.offset = props.location.state.offset;
       }
-      if (props.location.state.rate2 !== null && props.location.state.rate2 !== undefined) {
+      if (props.location.state.rate2 != null) {
         history.rate2 = props.location.state.rate2;
       }
     }
@@ -42,7 +42,7 @@ class Shop extends React.Component {
   }
   render() {
     var shopName = "", shopDescription = "";
-    if (this.state.shop !== null && this.state.shop !== undefined) {
+    if (this.state.shop != null) {
       shopName = this.state.shop.name;
       shopDescription = this.state.shop.description;
     }

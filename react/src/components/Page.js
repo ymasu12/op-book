@@ -58,11 +58,11 @@ const Page = (props) => {
   // useEffect(() =>{
   //   var offset = {x: 0, y: 0};
   //   var rate = 1;
-  //   if (props.location.state !== null && props.location.state !== undefined) {
-  //     if (props.location.uiState.offset !== null && props.location.uiState.offset !== undefined) {
+  //   if (props.location.state != null) {
+  //     if (props.location.uiState.offset != null) {
   //       offset = props.location.uiState.offset;
   //     }
-  //     if (props.location.uiState.rate2 !== null && props.location.uiState.rate2 !== undefined) {
+  //     if (props.location.uiState.rate2 != null) {
   //       rate = props.location.uiState.rate2;
   //     }
   //   }
@@ -346,7 +346,7 @@ const Page = (props) => {
   };
   
   const switchShopView = (shopId) => {
-    if (shopId !== null && shopId !== undefined) {
+    if (shopId != null) {
       for (var i = 0; i < shops.length; i++) {
         if (shops[i].puid === shopId) {
           const shop = shops[i];
@@ -362,7 +362,7 @@ const Page = (props) => {
     }
   };
   const switchFacilityView = (facilityId) => {
-    if (facilityId !== null && facilityId !== undefined) {
+    if (facilityId != null) {
       for (var i = 0; i < facilities.length; i++) {
         if (facilities[i].puid === facilityId) {
           let facility = facilities[i];
@@ -380,7 +380,7 @@ const Page = (props) => {
     setShopListInProp(false);
   };
   var imgTag = <p>no image</p>;
-  if (page != null && page !== undefined) {
+  if (page != null) {
     var imgfStyle = {
       top: uiState.initOfs.y,
       left: uiState.initOfs.x,

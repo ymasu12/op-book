@@ -66,7 +66,7 @@ const ShopList = (props) => {
                     }
                     return (
                       <li onClick={() => selected(shop.puid)} key={shop.puid}>
-                        <img src={Opu.ImgUrl(shop.icon_thumb)} alt={shop.puid}/>
+                        <img src={Opu.ImgUrl(shop.icon_thumb)} alt={shop.puid} loading='lazy'/>
                         <div className='title'>{shop.name}</div>
                         {dTag}
                         <div className={`category ${shop.category_code}`}>{shop.category_name}</div>

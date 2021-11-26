@@ -4,7 +4,7 @@ module.exports = function(app) {
   app.use(
     '/api',
     createProxyMiddleware({
-      target: 'https://devapi.open-pamphlet.com',
+      target: 'https://devbook.open-pamphlet.com',
       changeOrigin: true,
     })
   );

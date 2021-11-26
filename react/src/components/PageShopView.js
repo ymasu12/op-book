@@ -8,7 +8,7 @@ const PageShopView = (props) => {
   const [selectedContent, setSelectedContent] = useState();
   
   useEffect(() => setShop(props.shop), [props.shop]);
-  if (shop === null || shop === undefined) {
+  if (shop == null) {
     return <div className='op-shop-view'><div className='main'></div></div>;
   }
   // const [step, setStep] = useState(1);
@@ -43,13 +43,13 @@ const PageShopView = (props) => {
   //     console.log('error');
   //   });
   // }, [shopId]);
-  const descriptionSectionClass = () => shop.description === null || shop.description === undefined || shop.description.length === 0 ? 'section-frame display-none' : 'section-frame';
+  const descriptionSectionClass = () => shop.description == null || shop.description.length === 0 ? 'section-frame display-none' : 'section-frame';
   const contentsSectionClass = () => shop.contents.length === 0 ? 'section-frame display-none' : 'section-frame';
   const addressSectionClass = () => (Opu.IsEmpty(Opu.buildAddress(shop))) ? 'section-frame display-none' : 'section-frame';
   const functionsSectionClass = () => shop.functions.length === 0 ? 'section-frame display-none' : 'section-frame';
   const selectedImage = (content = null) => setSelectedContent(content);
   var closeBtn = <div className='text-btn rb-btn' onClick={() => props.remove()}>とじる</div>;
-  if (selectedContent !== null && selectedContent !== undefined) {
+  if (selectedContent != null) {
     closeBtn = null;
   }
 

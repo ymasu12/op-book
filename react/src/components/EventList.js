@@ -68,7 +68,7 @@ const EventList = (props) => {
           <li className='row-content'>
             <div className='row-spacer'></div>
             <div className='row-event'>
-              <img src={Opu.ImgUrl(events[i].icon_thumb)} alt={events[i].name}/>
+              <img src={Opu.ImgUrl(events[i].icon_thumb)} alt={events[i].name} loading='lazy'/>
               <div className='info'>
                 <div className='title'>{events[i].name}</div>
                 <div className='owner'>

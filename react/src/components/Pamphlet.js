@@ -21,7 +21,7 @@ const Pamphlet = (props) => {
     });
   }, [informationId]);
 
-  if (information === null || information === undefined) {
+  if (information == null) {
     return <div className='op-pamphlet'><div className='main'></div></div>;
   }
   Opu.VCHideHeaderFooter();
@@ -68,7 +68,7 @@ const Pamphlet = (props) => {
             { events.map((event) => {
                 var eventList =
                   <li key={event.puid}>
-                    <img src={Opu.ImgUrl(event.icon_thumb)} alt={event.name}/>
+                    <img src={Opu.ImgUrl(event.icon_thumb)} alt={event.name} loading='lazy'/>
                     <div className='title'>{event.name}</div>
                     <Link to={Opu.EventPath(event.puid)}>{event.name}</Link>
                   </li>;
