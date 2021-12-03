@@ -785,17 +785,21 @@ form.search-form {
         }
       }
       .facility {
-        position: absolute;
+        position: relative;
         .icon {
+          position: absolute;
+          top: 0px;
+          left: 0px;
           width: 32px;
           height: 32px;
         }
         .icon-name {
-          max-width: 170px;
-          position: relative;
-          bottom: 32px;
-          left: -50%;
-          font-size: 8px;
+          max-width: 5.5rem;
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          transform: translate(-50%, 0%);
+          font-size: .65rem;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;

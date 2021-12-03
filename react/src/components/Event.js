@@ -29,8 +29,8 @@ const Event = (props) => {
     <div className='op-event'>
       <HelmetProvider>
         <Helmet>
-          <meta charSet="utf-8" />
-          <title>{`Openパンフレット | イベント | ${event.name}`}</title>
+          <title>{`${event.name} | Openパンフレット`}</title>
+          <meta name="description" content={`${event.name} | ${Opu.MetaDescriptionStr(event.description)}`} />
         </Helmet>
       </HelmetProvider>
       <div id="breadcrumb" className='op-breadcrumb'>

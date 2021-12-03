@@ -438,11 +438,13 @@ const Page = (props) => {
         height: 32 * uiState.initRate * uiState.rate2,
         transform: `translate(-50%, -50%)`,
       };
-    let FacilityMiconTag = 
-      <div className="facility" style={aStyle} key={facility.puid}>
-        <img className="icon" src={Opu.MiconUrl(facility.micon_code)} style={imgStyle} alt={facility.name} onClick={handleSelectedFacility} data-facility-id={facility.puid}/>
-      </div>;
-    return FacilityMiconTag;
+    return (
+      <div className='icon-ab' style={aStyle}>
+        <div className="facility" key={facility.puid}>
+          <img className="icon" src={Opu.MiconUrl(facility.micon_code)} style={imgStyle} alt={facility.name} onClick={handleSelectedFacility} data-facility-id={facility.puid}/>
+        </div>
+      </div>
+    );
   });
   var indicatorTag = indicatorManager ? <div class="loader"></div> : null;
   const selectedImage = (content = null) => setSelectedContent(content);

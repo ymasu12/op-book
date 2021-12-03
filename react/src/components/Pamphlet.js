@@ -11,7 +11,6 @@ const Pamphlet = (props) => {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
-    console.log('useEffect called.');
     Api.fetchInformation(informationId, (res) => {
       setInformation(res.data.data.information);
       setPages(res.data.data.information.pages);
@@ -22,7 +21,11 @@ const Pamphlet = (props) => {
   }, [informationId]);
 
   if (information == null) {
-    return <div className='op-pamphlet'><div className='main'></div></div>;
+    return (
+      <div className='op-pamphlet'>
+        <div className='main'></div>
+      </div>
+    );
   }
   Opu.VCHideHeaderFooter();
   
@@ -39,8 +42,8 @@ const Pamphlet = (props) => {
     <div className='op-pamphlet'>
       <HelmetProvider>
         <Helmet>
-          <meta charSet="utf-8" />
-          <title>{`Openパンフレット | ${information.name}`}</title>
+          <title>{`${information.name} | Openパンフレット`}</title>
+          <meta name="description" content={`${Opu.MetaDescriptionStr(information.description)}`} />
         </Helmet>
       </HelmetProvider>
       {breadcrumbTag}

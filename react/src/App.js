@@ -16,15 +16,23 @@ import EventList from './components/EventList';
 
 function App() {
   // const { width, height } = useWindowDimensions();
-  setTimeout(() => {onClickDemoClose()} ,6000);
-  const onClickDemoClose = () => {
-    if (document.getElementById('demo-msg')) {
-      document.getElementById('demo-msg').style.display = 'none';
-    }
-  };
+  let debugTag = null;
+  // let debugTag = <div id='ap-app-is-debug-' />
+  let demoMsgTag = null;
+  //   <div id='demo-msg'>
+  //     <p>Openパンフレットをご利用いただきありがとうございます。</p>
+  //     <p>この機能はデモ版のため機能保証はございません。</p>
+  //     <p>正式リリースをお待ち下さい。</p>
+  //     <p className='close-btn' onClick={() => onClickDemoClose()}>OK</p>
+  //   </div>;
+  // setTimeout(() => {onClickDemoClose()} ,6000);
+  // const onClickDemoClose = () => {
+  //   if (document.getElementById('demo-msg')) {
+  //     document.getElementById('demo-msg').style.display = 'none';
+  //   }
+  // };
   return (
     <div className="App">
-      <div id='ap-app-is-debug-' />
       <header>
         <div className='op-header'>
           <div className='h-left'></div>
@@ -77,12 +85,8 @@ function App() {
         </ul>
         <div className='footer_copyright'>Copyright© 2020-2021 Penguin-system.</div>
       </footer>
-      <div id='demo-msg'>
-        <p>Openパンフレットをご利用いただきありがとうございます。</p>
-        <p>この機能はデモ版のため機能保証はございません。</p>
-        <p>正式リリースをお待ち下さい。</p>
-        <p className='close-btn' onClick={() => onClickDemoClose()}>OK</p>
-      </div>
+      {demoMsgTag}
+      {debugTag}
     </div>
   );
 }

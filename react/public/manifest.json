@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Open Pamphlet",
+  "name": "Open Pamphlet web book.",
   "icons": [
     {
       "src": "favicon.ico",
