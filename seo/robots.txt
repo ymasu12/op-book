@@ -1,6 +1,6 @@
 User-agent: *
 Allow: /$
+Allow: /search
 Allow: /pamphlets/
-Disallow: /events
-Disallow: /shops
+Disallow: /
 sitemap: https://book.open-pamphlet.com/sitemap.txt

@@ -27,9 +27,11 @@ nvm exec ${N_VERSION} yarn build
 echo upload react app to s3
 aws s3 sync "./build/" ${REACT_DEPLOY_PATH} --include "*" --acl public-read --cache-control "max-age=3600"
 
-cd ..
-cd ${SEO_DIR}
-echo upload seo to s3
-aws s3 sync "." ${SEO_DEPLOY_PATH} --include "*" --acl public-read --cache-control "max-age=3600"
+if [[ $REACT_MYENV == production ]]; then
+  cd ..
+  cd ${SEO_DIR}
+  echo upload seo to s3
+  aws s3 sync "." ${SEO_DEPLOY_PATH} --include "*" --acl public-read --cache-control "max-age=3600"
+fi
 
 echo end
