@@ -13,7 +13,7 @@ const Search = (props) => {
   const history = useHistory();
 
   const onSubmit = () => {
-    history.replace(`/search?keyword=${watch('keyword')}`);
+    history.replace(Opu.SearchPath(watch('keyword')));
   };
   
   const doSearch = (keyword) => {
@@ -30,6 +30,8 @@ const Search = (props) => {
     }, (error) => {
       setPamphlets([]);
       setErrorMsg(error.message || "unknown error.");
+    }, () => {
+      console.log("TODO Indicator");
     });
   };
   
@@ -49,7 +51,7 @@ const Search = (props) => {
     errorMsgTag = <p><span className='message'>エラーが発生しました。</span><br/><span className='error'>{errorMsg}</span></p>;
   } else {
     if (pamphlets.length === 0) {
-      isEmptyTag = <div>検索結果0件</div>;
+      isEmptyTag = <div className='op-msg'>{`キーワード；${keywordText}`}<div>検索結果0件</div></div>;
     }
   }
 

@@ -12,7 +12,7 @@ import Pamphlet from './components/Pamphlet';
 import Page from './components/Page';
 import Shop from './components/Shop';
 import Event from './components/Event';
-import EventList from './components/EventList';
+import EventListPage from './components/EventListPage';
 
 function App() {
   // const { width, height } = useWindowDimensions();
@@ -58,7 +58,7 @@ function App() {
                 <Switch>
                   <Route exact path={url} component={Pamphlet} />
                   <Route path={Opu.InformationShopsPath(':informationId')} component={Shop} />
-                  <Route path={Opu.InformationEventsPath(':informationId')} component={EventList} />
+                  <Route path={Opu.InformationEventsPath(':informationId')} component={EventListPage} />
                   <Route exact path={Opu.PagePath(':informationId', ':pageId')} >
                     <Page/>
                   </Route>

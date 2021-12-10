@@ -8,6 +8,9 @@ $--c-service: #0092ca;
 $--c-entertainment: #a56cc1;
 $--c-any: #757575;
 $--c-title: #154080;
+$--c-error: red;
+$--c-info: #60667a;
+$--c-warn: #fd7e14;
 $--cn-eat: #fff;
 $--cn-shop: #fff;
 $--cn-service: #fff;
@@ -194,6 +197,9 @@ footer {
     h1 {
       font-size: 1.5rem;
     }
+    h2 {
+      font-size: 1.3rem;
+    }
     p {
       font-size: 0.9rem;
       text-align: left;
@@ -374,7 +380,8 @@ footer {
   }
   .info {
     text-align: left;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
+    padding-bottom: 15px;
   }
 }
 
@@ -521,6 +528,30 @@ footer {
   height: calc(16px + 10px + 20px);
 }
 
+.op-msg {
+  width: 100%;
+  margin-top: 50%;
+  margin-bottom: 50%;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  color: $--c-info;
+  font-size: 0.9rem;
+  .reason {
+    margin-top: 30px;
+    font-size: 0.85rem;
+  }
+  &.short {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+  .c-error {
+    color: $--c-error;
+  }
+  .c-warn {
+    color: $--c-warn;
+  }
+}
 // +=====================================================================+
 // | ページ別クラス
 // +=====================================================================+
@@ -693,11 +724,11 @@ form.search-form {
   }
   span.message {
     font-size: 0.8rem;
-    color: gray;
+    color: $--c-info;
   }
   span.error {
     font-size: 0.7rem;
-    color: red;
+    color: $--c-error;
   }
 }
 
@@ -708,7 +739,7 @@ form.search-form {
     ul.pageList {
       @include panelStyleUl();
     }
-    ul.eventList {
+    ul.hEventList {
       @include panelStyleUl(33%);
       li {
         .title {
@@ -920,7 +951,7 @@ form.search-form {
   @include OpBase();
   height: auto;
   height: 100%;
-  overflow: scroll;
+  overflow: hidden;
   .main {
     max-width: none;
     background-color: #fff;
@@ -1015,7 +1046,7 @@ form.search-form {
 
 .op-event-list {
   width: 100%;
-  overflow: scroll;
+  overflow: auto;
   background-color: #fff;
   display: flex;
   flex-direction: column;
@@ -1023,9 +1054,49 @@ form.search-form {
   ul.eventList {
     @include listStyleUl(false, false);
     li {
+      .row-spacer {
+        display: block;
+        width: 0px;
+        max-width: 110px;
+        flex-grow: 0;
+      }
+      &[class^="label-"] {
+        width: 100%;
+        text-align: left;
+      }
+      &.label-year {
+        padding: 5px 0px 5px;
+        border-bottom: solid 2px navy;
+        font-size: .9rem;
+        font-weight: 700;    
+      }
+      &.label-date {
+        padding: 5px 0px 5px;
+        span {
+          padding: 5px 15px 5px;
+          font-size: .8rem;
+          font-weight: 700;
+          border-radius: 15px;
+          background-color: lightblue;
+        }
+        .row-spacer {
+          width: 10px;
+        }
+      }
+      &.label-time {
+        padding: 0px;
+        span {
+          font-size: .75rem;
+          font-weight: 400;
+          text-decoration: underline;
+        }
+        .row-spacer {
+          width: 40px;
+        }
+      }
       &.row-content {
         display: flex;
-        padding: 5px;
+        padding: 5px 0px 5px;
         .row-event {
           @include listStyleRow();
           flex-grow: 1;
@@ -1041,40 +1112,7 @@ form.search-form {
           }
         }
         .row-spacer {
-          display: block;
-          width: 15vw;
-          max-width: 110px;
-          flex-grow: 0;
-        }
-      }
-      &.label-year {
-        width: 100%;
-        text-align: left;
-        padding: 5px 15px 5px;
-        border-bottom: solid 2px navy;
-        font-size: .9rem;
-        font-weight: 700;    
-      }
-      &.label-date {
-        width: 100%;
-        padding: 5px 20px 5px;
-        text-align: left;
-        span {
-          padding: 5px 15px 5px;
-          font-size: .8rem;
-          font-weight: 700;
-          border-radius: 15px;
-          background-color: lightblue;
-        }
-      }
-      &.label-time {
-        padding: 0 20px 0;
-        text-align: left;
-        span {
-          padding-left: 35px;
-          font-size: .75rem;
-          font-weight: 400;
-          text-decoration: underline;
+          width: 50px;
         }
       }
     }

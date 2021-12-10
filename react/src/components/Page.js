@@ -99,16 +99,11 @@ const Page = (props) => {
         },
         initRate: rate,
       }));
-      setIndicator(false);
-    }, (error) => {
-      // alert("エラーです！");
-      console.log('fetch page error.');
+    }, null, () => {
       setIndicator(false);
     });
     Api.fetchInformation(informationId, (res) => {
       setInformation(res.data.data.information);
-    }, (error) => {
-      console.log('fetch page error.');
     });
   }, [informationId, pageId]);
   
@@ -446,7 +441,7 @@ const Page = (props) => {
       </div>
     );
   });
-  var indicatorTag = indicatorManager ? <div class="loader"></div> : null;
+  var indicatorTag = indicatorManager ? <div className="loader"></div> : null;
   const selectedImage = (content = null) => setSelectedContent(content);
   const shopListBtn = () => shopListInProp || shopViewInProp ? Opu.VCIconX() : Opu.VCIconList();
   var listBtnStyle = shopListInProp ? 'list-btn close' : 'list-btn';

@@ -10,7 +10,7 @@ const Top = (props) => {
   Opu.VCShowHeaderFooter();
   
   const onSubmit = useCallback(() => {
-    history.push(`/search?keyword=${watch('keyword')}`);
+    history.push(Opu.SearchPath(watch('keyword')));
   }, [history, watch]);
   
   return (

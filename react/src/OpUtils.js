@@ -13,7 +13,13 @@ export function BuildUrl(...a) {
 export function TopPath() {
   return BuildUrl(URL_PREFIX, URL_TOP);
 }
-export function SearchPath() {
+export function SearchPath(keyword = null) {
+  if (keyword != null) {
+    // var keyword_64 = window.btoa(encodeURIComponent(keyword));
+    // if (keyword_64 != null && keyword_64.length !== 0) {
+    // }
+    return BuildUrl(URL_PREFIX, URL_SEARCH) + "?keyword=" + keyword;
+  }
   return BuildUrl(URL_PREFIX, URL_SEARCH);
 }
 export function InformationPath(informationId) {
@@ -49,12 +55,20 @@ export function InformationShopsPath(informationId) {
     informationId,
     URL_SHOPS);
 }
-export function InformationEventsPath(informationId) {
-  return BuildUrl(
-    URL_PREFIX,
-    URL_INFORMATION,
-    informationId,
-    URL_EVENTS);
+export function InformationEventsPath(informationId, passedEvents = false) {
+  if (passedEvents === true) {
+    return BuildUrl(
+      URL_PREFIX,
+      URL_INFORMATION,
+      informationId,
+      URL_EVENTS) + '?passed=1';
+  } else {
+    return BuildUrl(
+      URL_PREFIX,
+      URL_INFORMATION,
+      informationId,
+      URL_EVENTS);
+  }
 }
 export function PageShopPath(informationId, pageId, shopId) {
   return BuildUrl(
@@ -144,11 +158,66 @@ export function MetaDescriptionStr(src, target = 'web') {
   }
 }
 
-export function VCBackLinkTab(props) {
-  if (props.history.length !== 0) {
-    return <div className='back-link' onClick={() => props.history.goBack()}>{VCIconBack()}Back</div>;
+export function VCBackLinkTab(history) {
+  if (history != null) {
+    return <div className='back-link' onClick={() => history.goBack()}>{VCIconBack()}Back</div>;
   } else {
     return null;
+  }
+}
+
+export function VCListEventsTag(schedules, events) {
+  if (schedules != null && events != null) {
+    var listTags = [];
+    var current = {year: null, month: null, day: null, time: null};
+    
+    schedules.forEach((schedule) => {
+      if (schedule.st_date.substr(0, 4) !== current.year) {
+        current.year = schedule.st_date.substr(0, 4);
+        current.month = null;
+        current.day = null;
+        current.time = null;
+        listTags.push(<li className='label-year' key={`${schedule.puid}-${current.year}`}>{current.year}年</li>);
+      }
+      if (schedule.st_date.substr(5, 2) !== current.month || schedule.st_date.substr(8, 2) !== current.day) {
+        current.month = schedule.st_date.substr(5, 2);
+        current.day = schedule.st_date.substr(8, 2);
+        current.time = null;
+        listTags.push(<li className='label-date' key={`${schedule.puid}-${current.month}-${current.day}`}><span>{current.month}月{current.day}日</span></li>);
+      }
+      if (schedule.all_day === false && schedule.st_time !== current.time) {
+        current.time = schedule.st_time;
+        listTags.push(<li className='label-time' key={`${schedule.puid}-${current.time}`}><span>{current.time}</span></li>);
+      }
+      for (var i = 0; i < events.length; i++) {
+        if (events[i].puid === schedule.event_id) {
+          listTags.push(
+            <li className='row-content' key={`${events[i].puid}_${schedule.puid}`}>
+              <div className='row-spacer'></div>
+              <div className='row-event'>
+                <img src={ImgUrl(events[i].icon_thumb)} alt={events[i].name} loading='lazy'/>
+                <div className='info'>
+                  <div className='title'>{events[i].name}</div>
+                  <div className='owner'>
+                    {VCIconOwner()}
+                    {events[i].user_name}
+                  </div>
+                  <div className='views'>
+                    {VCIconView()}
+                    {events[i].access_total}
+                  </div>
+                </div>
+                <a href={EventPath(events[i].puid)}>_</a>
+              </div>
+            </li>
+          );
+          break;
+        }
+      }
+    });
+    return listTags;
+  } else {
+    return [];
   }
 }
 

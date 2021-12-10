@@ -1,36 +1,42 @@
 import {useState, useEffect} from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
 import * as Opu from '../OpUtils';
 import * as Api from '../OpApi';
 
 const EventList = (props) => {
-  let informationId = props.match.params.informationId;
   const [information, setInformation] = useState({name: ''});
   const [events, setEvents] = useState([]);
   const [schedules, setSchedules] = useState([]);
   const [indicatorManager, setIndicator] = useState(false);
+  const history = useHistory();
+  const location = useLocation();
+  const { informationId } = useParams();
+  let passed = new URLSearchParams(location.search).get('passed');
 
   // fetch
   useEffect(() => {
     setIndicator(true);
-    Api.fetchInformationEvents(informationId, (res) => {
+    var after = 0;
+    if (passed !== '1') {
+      after = Date.now() - 3600000;
+    }
+    Api.fetchInformationEvents(informationId, after, 10, 0, (res) => {
       const data = res.data.data;
       setEvents(data.events);
       setSchedules(data.schedules);
-      setIndicator(false);
-    }, (error) => {
-      // alert("エラーです！");
-      console.log('fetch page error.');
+    }, null, () => {
       setIndicator(false);
     });
     Api.fetchInformation(informationId, (res) => {
       setInformation(res.data.data.information);
-    }, (error) => {
-      console.log('fetch page error.');
     });
-  }, [informationId]);
+  }, [informationId, passed]);
   
-  var indicatorTag = indicatorManager ? <div class="loader"></div> : null;
+  const listHistory = () => {
+    history.replace(Opu.InformationEventsPath(props.match.params.informationId, true));
+  };
+
+  var indicatorTag = indicatorManager ? <div className="loader"></div> : null;
   var breadcrumbTag = 
     <div id="breadcrumb" className='op-breadcrumb'>
       {Opu.VCBackLinkTab(props)}
@@ -43,29 +49,29 @@ const EventList = (props) => {
   
   var listTags = [];
   var current = {year: null, month: null, day: null, time: null};
-
+  
   schedules.forEach((schedule) => {
     if (schedule.st_date.substr(0, 4) !== current.year) {
       current.year = schedule.st_date.substr(0, 4);
       current.month = null;
       current.day = null;
       current.time = null;
-      listTags.push(<li className='label-year'>{current.year}年</li>);
+      listTags.push(<li className='label-year' key={`${schedule.puid}-${current.year}`}>{current.year}年</li>);
     }
     if (schedule.st_date.substr(5, 2) !== current.month || schedule.st_date.substr(8, 2) !== current.day) {
       current.month = schedule.st_date.substr(5, 2);
       current.day = schedule.st_date.substr(8, 2);
       current.time = null;
-      listTags.push(<li className='label-date'><span>{current.month}月{current.day}日</span></li>);
+      listTags.push(<li className='label-date' key={`${schedule.puid}-${current.month}-${current.day}`}><span>{current.month}月{current.day}日</span></li>);
     }
     if (schedule.all_day === false && schedule.st_time !== current.time) {
       current.time = schedule.st_time;
-      listTags.push(<li className='label-time'><span>{current.time}</span></li>);
+      listTags.push(<li className='label-time' key={`${schedule.puid}-${current.time}`}><span>{current.time}</span></li>);
     }
     for (var i = 0; i < events.length; i++) {
       if (events[i].puid === schedule.event_id) {
         listTags.push(
-          <li className='row-content'>
+          <li className='row-content' key={`${events[i].puid}_${schedule.puid}`}>
             <div className='row-spacer'></div>
             <div className='row-event'>
               <img src={Opu.ImgUrl(events[i].icon_thumb)} alt={events[i].name} loading='lazy'/>
@@ -88,6 +94,13 @@ const EventList = (props) => {
       }
     }
   });
+  if (listTags.length === 0) {
+    if (passed === '1') {
+      listTags = <div className='op-msg'>イベントは見つかりませんでした。</div>;
+    } else {
+      listTags = <div className='op-msg'>イベントは見つかりませんでした。<button onClick={() => {listHistory()}}>過去のイベントをみる</button></div>;
+    }
+  }
   return (
     <div className='op-event-list'>
       {breadcrumbTag}
@@ -99,4 +112,4 @@ const EventList = (props) => {
   );
 };
 
-export default withRouter(EventList);
+export default EventList;

@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, useHistory } from 'react-router-dom';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import * as Api from '../OpApi';
 import * as Opu from '../OpUtils';
@@ -9,14 +9,12 @@ const Event = (props) => {
   const [eventId] = useState(props.match.params.eventId);
   const [event, setEvent] = useState({name: '', icon: '', contents: []});
   const [selectedContent, setSelectedContent] = useState();
+  const history = useHistory();
   
   // init get data.
   useEffect(() => {
     Api.fetchEvent(eventId, (res) => {
-      const data = res.data.data;
-      setEvent(data.event);
-    }, (error) => {
-      console.log('error');
+      setEvent(res.data.data.event);
     });
   }, [eventId]);
   
@@ -34,7 +32,7 @@ const Event = (props) => {
         </Helmet>
       </HelmetProvider>
       <div id="breadcrumb" className='op-breadcrumb'>
-        {Opu.VCBackLinkTab(props)}
+        {Opu.VCBackLinkTab(history)}
         <ol className='l-breadcrumb'>
           <li>{event.name}</li>
         </ol>
@@ -44,7 +42,7 @@ const Event = (props) => {
         <img className='thumb' src={Opu.ImgUrl(event.icon)} alt={event.name}/>
         <div className='section-frame'>
           <div className='section-title'>説明</div>
-          <div className='description'>
+          <div className='info'>
             {event.description}
           </div>
         </div>
