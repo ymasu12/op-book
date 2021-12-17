@@ -3,20 +3,33 @@ import { withRouter, useHistory } from 'react-router-dom';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import * as Api from '../OpApi';
 import * as Opu from '../OpUtils';
+import ErrorView from './ErrorView';
 import ContentView from './ContentView';
 
 const Event = (props) => {
   const [eventId] = useState(props.match.params.eventId);
   const [event, setEvent] = useState({name: '', icon: '', contents: []});
   const [selectedContent, setSelectedContent] = useState();
+  const [error, setError] = useState();
   const history = useHistory();
   
   // init get data.
   useEffect(() => {
     Api.fetchEvent(eventId, (res) => {
       setEvent(res.data.data.event);
+    }, (error) => {
+      setError(error);
     });
   }, [eventId]);
+  
+  if (event == null) {
+    return (
+      <div className='op-event'>
+        <ErrorView error={error} />
+        <div className='main'></div>
+      </div>
+    );
+  }
   
   // methods.
   const subSectionClass = (src) => Opu.IsEmpty(src) ? 'sub-section-frame display-none' : 'sub-section-frame';

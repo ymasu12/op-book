@@ -1,31 +1,53 @@
-import {useState, useEffect} from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import {useState, useEffect, useRef} from 'react';
+import { Link, useLocation, useParams, useHistory } from 'react-router-dom';
 import * as Opu from '../OpUtils';
 import * as Api from '../OpApi';
 
 const EventListView = (props) => {
-  const [events, setEvents] = useState([]);
   const [schedules, setSchedules] = useState([]);
   const [indicatorManager, setIndicator] = useState(false);
+  const [total, setTotal] = useState();
   const location = useLocation();
+  const history = useHistory();
   const { informationId } = useParams();
+  let isPamphletPage = props.isPamphletPage;
   let passed = new URLSearchParams(location.search).get('passed');
-
+  let next = new URLSearchParams(location.search).get('next');
+  
+  const schedulesRef = useRef(null);
+  schedulesRef.current = schedules;
+  
   // fetch
   useEffect(() => {
     setIndicator(true);
-    var after = 0;
-    if (passed !== '1') {
-      after = Date.now() - 3600000;
+    var to = Math.floor(Date.now() / 1000) + 3600000 * 365; // one year later.
+    var from = Math.floor(Date.now() / 1000) - 3600000;
+    if (passed === '1') {
+      from = null;
     }
-    Api.fetchInformationEvents(informationId, after, 10, 0, (res) => {
+    var offset = 0;
+    if (next != null) {
+      offset = schedulesRef.current.length;
+    }
+    Api.fetchInformationEventSchedules(informationId, 10, offset, from, to, (res) => {
       const data = res.data.data;
-      setEvents(data.events);
-      setSchedules(data.schedules);
+      if (next != null) {
+        var tmpSchedules = [];
+        schedulesRef.current.forEach((schedule) => {
+          tmpSchedules.push(schedule);
+        });
+        data.schedules.forEach((schedule) => {
+          tmpSchedules.push(schedule);
+        });
+        setSchedules(tmpSchedules);
+      } else {
+        setSchedules(data.schedules);
+      }
+      setTotal(data.total);
     }, null, () => {
       setIndicator(false);
     });
-  }, [informationId, passed]);
+  }, [informationId, passed, next, schedulesRef]);
   
   var indicatorTag = indicatorManager ? <div className="loader"></div> : null;
   
@@ -50,40 +72,49 @@ const EventListView = (props) => {
       current.time = schedule.st_time;
       listTags.push(<li className='label-time' key={`${schedule.puid}-${current.time}`}><div className='row-spacer'></div><span>{current.time}</span></li>);
     }
-    for (var i = 0; i < events.length; i++) {
-      if (events[i].puid === schedule.event_id) {
-        listTags.push(
-          <li className='row-content' key={`${events[i].puid}_${schedule.puid}`}>
-            <div className='row-spacer'></div>
-            <div className='row-event'>
-              <img src={Opu.ImgUrl(events[i].icon_thumb)} alt={events[i].name} loading='lazy'/>
-              <div className='info'>
-                <div className='title'>{events[i].name}</div>
-                <div className='owner'>
-                  {Opu.VCIconOwner()}
-                  {events[i].user_name}
-                </div>
-                <div className='views'>
-                  {Opu.VCIconView()}
-                  {events[i].access_total}
-                </div>
-              </div>
-              <Link to={Opu.EventPath(events[i].puid)}></Link>
+    listTags.push(
+      <li className='row-content' key={`${schedule.event.puid}_${schedule.puid}`}>
+        <div className='row-spacer'></div>
+        <div className='row-event'>
+          <img src={Opu.ImgUrl(schedule.event.icon_thumb)} alt={schedule.event.name} loading='lazy'/>
+          <div className='info'>
+            <div className='title'>{schedule.event.name}</div>
+            <div className='owner'>
+              {Opu.VCIconOwner()}
+              {schedule.event.user_name}
             </div>
-          </li>
-        );
-        break;
-      }
-    }
+            <div className='views'>
+              {Opu.VCIconView()}
+              {schedule.event.access_total}
+            </div>
+          </div>
+          <Link to={Opu.EventPath(schedule.event.puid)}></Link>
+        </div>
+      </li>
+    );
   });
   if (listTags.length === 0) {
     listTags = <div className='op-msg short'>イベントは見つかりませんでした。</div>;
   }
+  var nextTag = null;
+  if (isPamphletPage != null) {
+  } else {
+    if (schedules.length < total) {
+      nextTag = <div className='btns btns-ct'><button className='next' onClick={() => nextClick()}>さらに表示する</button></div>;
+    } else {
+      nextTag = <div className='btns btns-ct'><button className='next' >End</button></div>;
+    }
+  }
+  const nextClick = () => {
+    var length = schedules.length || 0;
+    history.replace(Opu.InformationEventsPath(informationId, true) + `&next=${length}`);
+  };
   return (
     <div className='op-event-list'>
       <ul className='eventList'>
         {listTags}
       </ul>
+      {nextTag}
       {indicatorTag}
     </div>
   );

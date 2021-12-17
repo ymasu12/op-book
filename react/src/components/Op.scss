@@ -18,6 +18,7 @@ $--cn-entertainment: #fff;
 $--cn-any: #fff;
 $--h-footer: 30px;
 $--h-header: 40px;
+$--sw-list: 600px;
 
 $pc: 768px; // タブレット・PC
 @mixin pc {
@@ -176,7 +177,7 @@ footer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 500px;
+    max-width: $--sw-list;
     width: 100%;
     overflow: auto;
     .thumb {
@@ -272,10 +273,10 @@ footer {
 }
 @mixin listStyleUl($border: true, $hover: true) {
   width: 100%;
-  max-width: 500px;
+  max-width: $--sw-list;
   li {
     width: 100%;
-    max-width: 500px;
+    max-width: $--sw-list;
     padding: 15px;
     background-color: white;
     position: relative;
@@ -335,6 +336,22 @@ footer {
 // +=====================================================================+
 // | 部品
 // +=====================================================================+
+
+.p-1 {
+  padding: 15px !important;
+}
+.pt-1 {
+  padding-top: 15px !important;
+}
+.pl-1 {
+  padding-left: 15px !important;
+}
+.pr-1 {
+  padding-right: 15px !important;
+}
+.pb-1 {
+  padding-bottom: 15px !important;
+}
 
 // セクション
 .section-frame {
@@ -1044,6 +1061,19 @@ form.search-form {
   }
 }
 
+.op-event-list-page {
+  width: 100%;
+  overflow: auto;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .list-frame {
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
 .op-event-list {
   width: 100%;
   overflow: auto;
@@ -1117,8 +1147,53 @@ form.search-form {
       }
     }
   }
-  .event-row {
-    width: 100%;
+}
+.btns {
+  width: 100%;
+  display: flex;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 15px;
+  padding-left: 15px;
+  &.btns-rt {
+    justify-content: flex-end;
+  }
+  &.btns-ct {
+    justify-content: center;
+  }
+  &.btns-lt {
+    justify-content: flex-start;
+  }
+  button.contain-passed {
+    line-height: 1.5rem;
+    font-size: .8rem;
+    font-weight: 400;
+    color: #154080;
+    border: none;
+    background-color: #fff;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: background-color .35s;
+    &:before {
+      content: '✔';
+      padding-right: 4px;
+      color: lightgray;
+    }
+    &.active:before {
+      color: #154080;
+    }
+  }
+  button.next {
+    line-height: 1.8rem;
+    font-size: .8rem;
+    font-weight: 400;
+    padding-left: 15px;
+    padding-right: 15px;
+    color: black;
+    border: none;
+    background-color: #eee;
+    border-radius: 1rem;
+    cursor: pointer;
   }
 }
 

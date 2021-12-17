@@ -6,7 +6,7 @@ const apiParams = {
   }
 };
 
-export function api(url, queries, callBack, errorCallBack, fin) {
+export function api(url, queries, callback, errorCallBack, fin) {
   var cUrl = process.env.REACT_APP_API + url;
   if (0 < queries.length) {
     cUrl = cUrl + '?' + queries.join('&');
@@ -15,7 +15,7 @@ export function api(url, queries, callBack, errorCallBack, fin) {
   .then((res) => {
     console.log(`api [${encodeURI(cUrl)}]`);
     console.log(res.data.data);
-    callBack(res);
+    callback(res);
   }).catch((error) => {
     if (error.response != null) {
       // let status = error.response.status != null ? error.response.status : "?";
@@ -43,6 +43,17 @@ export function fetchInformationEvents(informationId, after = 0, limit = 10, off
   let queryLimit = `limit=${limit}`;
   let queryOffset = `offset=${offset}`;
   api(`/api/information/${informationId}/events`, [queryAfter, queryLimit, queryOffset], a, b, c);
+}
+
+export function fetchInformationEventSchedules(informationId, limit = 10, offset = 0, from = null, to = null, callback, error = null, allways = null) {
+  var queries = [`limit=${limit}`, `offset=${offset}`];
+  if (from != null) {
+    queries.push(`from=${from}`);
+  }
+  if (to != null) {
+    queries.push(`to=${to}`);
+  }
+  api(`/api/information/${informationId}/event-schedules`, queries, callback, error, allways);
 }
 
 export function fetchPage(informationId, pageId, a, b = null, c = null) {

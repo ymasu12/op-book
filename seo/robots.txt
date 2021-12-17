@@ -1,7 +1,8 @@
 User-agent: *
-allow: /$
-allow: /search
-allow: /pamphlets/
-allow: /static/
-disallow: /
-sitemap: https://book.open-pamphlet.com/sitemap.txt
+Allow: /$
+Allow: /search
+Allow: /pamphlets/
+Allow: /static/
+Disallow: /
+
+Sitemap: https://book.open-pamphlet.com/sitemap.txt

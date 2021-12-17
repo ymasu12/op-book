@@ -80,7 +80,7 @@ const Pamphlet = (props) => {
         </section>
         <section className='section-frame'>
           <div className='section-title'>イベント</div>
-          <EventListView />
+          <EventListView isPamphletPage='true' />
           <div className='showAll'>
             <Link to={Opu.InformationEventsPath(props.match.params.informationId)}>一覧でみる</Link>
           </div>

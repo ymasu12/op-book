@@ -18,12 +18,17 @@ const EventListPage = (props) => {
     });
   }, [informationId, passed]);
   
-  const listHistory = () => {
+  const containPassed = () => {
     history.replace(Opu.InformationEventsPath(informationId, true));
+  };
+  const ejectPassed = () => {
+    history.replace(Opu.InformationEventsPath(informationId, false));
   };
   var showPassedTag = null;
   if (passed !== '1') {
-    showPassedTag = <div className='op-msg short'><button onClick={() => {listHistory()}}>過去のイベントを含める</button></div>;
+    showPassedTag = <div className='btns btns-rt'><button className='contain-passed' onClick={() => {containPassed()}}>過去のイベントを含める</button></div>;
+  } else {
+    showPassedTag = <div className='btns btns-rt'><button className='contain-passed active' onClick={() => {ejectPassed()}}>過去のイベントを含める</button></div>;
   }
   
   var breadcrumbTag = 
@@ -37,10 +42,12 @@ const EventListPage = (props) => {
     </div>;
   
   return (
-    <div className='op-event-list'>
+    <div className='op-event-list-page'>
       {breadcrumbTag}
       {showPassedTag}
-      <EventListView />
+      <div className='list-frame'>
+        <EventListView />
+      </div>
     </div>
   );
 };

@@ -1,6 +1,5 @@
 import {useState, useEffect, useRef} from 'react';
-import { withRouter, Link } from 'react-router-dom';
-// import { withRouter } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { Transition } from 'react-transition-group';
 import * as Opu from '../OpUtils';
 import * as Api from '../OpApi';
@@ -9,8 +8,10 @@ import ShopList from './ShopList';
 import ContentView from './ContentView';
 
 const Page = (props) => {
-  let informationId = props.match.params.informationId;
-  let pageId = props.match.params.pageId;
+  let { informationId } = useParams();
+  let { pageId } = useParams();
+  let history = useHistory();
+
   
   const [information, setInformation] = useState({name: ''});
   const [page, setPage] = useState({name: '', image: ''});
@@ -463,7 +464,7 @@ const Page = (props) => {
         </div>
       </div>
       <div id="breadcrumb" className='op-breadcrumb' style={{position: 'fixed', top: '0', left: '0'}}>
-        {Opu.VCBackLinkTab(props)}
+        {Opu.VCBackLinkTab(history)}
         <ol className='l-breadcrumb'>
           <li><a href={Opu.TopPath()}>Top</a></li>
           <li><a href={Opu.InformationPath(informationId)}>{information.name}</a></li>
@@ -564,4 +565,4 @@ const Page = (props) => {
   );
 };
 
-export default withRouter(Page);
+export default Page;
